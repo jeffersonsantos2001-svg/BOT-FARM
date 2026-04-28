@@ -137,10 +137,13 @@ async function quantityFlow(interaction) {
   const members = await interaction.guild.members.fetch({ withPresences: true }).catch(() => null);
   if (!members) return safeReply(interaction, { embeds: [errorEmbed('Não consegui carregar os membros do servidor.')], ephemeral: true });
 
-  const options = members
-    .filter(m => !m.user.bot && m.presence?.status && ['online', 'idle', 'dnd'].includes(m.presence.status) && hasAuthorizedRole(m))
-    .map(m => ({ label: `${m.displayName}`.slice(0, 90), description: mainAuthorizedRoleName(m).slice(0, 90), value: m.id, emoji: '📥' }))
-    .slice(0, 25);
+const options = members
+  .filter(m => !m.user.bot)
+  .map(m => ({
+    label: `${m.displayName}`.slice(0, 90),
+    description: `${m.presence?.status || 'offline'}`
+  }))
+  .slice(0, 25);
 
   if (!options.length) return safeReply(interaction, { embeds: [warningEmbed('Nenhum recebedor autorizado está online no momento.')], ephemeral: true });
   return safeReply(interaction, { embeds: [embedBase().setTitle('📥 Selecionar recebedor').setDescription('Escolha quem recebeu o farme.')], components: receiverSelect(options), ephemeral: true }, 0);
