@@ -134,14 +134,30 @@ async function quantityFlow(interaction) {
   if (quantity > config.limits.maxQuantity) return safeReply(interaction, { embeds: [errorEmbed(`Limite máximo permitido: **${config.limits.maxQuantity.toLocaleString('pt-BR')}**.`)], ephemeral: true });
 
   updateSession(interaction.user.id, { quantity });
-  const members = await interaction.guild.members.fetch({ withPresences: true }).catch(() => null);
-  if (!members) return safeReply(interaction, { embeds: [errorEmbed('Não consegui carregar os membros do servidor.')], ephemeral: true });
+  try {
+  await interaction.guild.members.fetch({ withPresences: false });
+} catch (err) {
+  console.error(err);
+
+  return safeReply(interaction, {
+    embeds: [errorEmbed('Não consegui carregar os membros do servidor.')],
+    ephemeral: true
+  });
+}
+
+const members = interaction.guild.members.cache;
 
 const options = members
   .filter(m => !m.user.bot)
+  .filter(m =>
+    m.roles.cache.some(role =>
+      authorizedRoleIds.includes(role.id)
+    )
+  )
   .map(m => ({
-    label: `${m.displayName}`.slice(0, 90),
-    description: `${m.presence?.status || 'offline'}`
+    label: m.displayName.slice(0, 90),
+    value: m.id,
+    description: 'Autorizado a receber farme'
   }))
   .slice(0, 25);
 
