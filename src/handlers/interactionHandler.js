@@ -134,30 +134,42 @@ async function quantityFlow(interaction) {
   if (quantity > config.limits.maxQuantity) return safeReply(interaction, { embeds: [errorEmbed(`Limite máximo permitido: **${config.limits.maxQuantity.toLocaleString('pt-BR')}**.`)], ephemeral: true });
 
   updateSession(interaction.user.id, { quantity });
-  try {
-  await interaction.guild.members.fetch({ withPresences: false });
-} catch (err) {
-  console.error(err);
+const authorizedRoleIds = [
+  process.env.ROLE_1_ID,
+  process.env.ROLE_2_ID,
+  process.env.ROLE_3_ID,
+  process.env.ROLE_4_ID,
+  process.env.ROLE_5_ID
+].filter(Boolean);
 
+const membersMap = new Map();
+
+for (const roleId of authorizedRoleIds) {
+  const role = interaction.guild.roles.cache.get(roleId);
+
+  if (!role) continue;
+
+  role.members
+    .filter(member => !member.user.bot)
+    .forEach(member => {
+      membersMap.set(member.id, member);
+    });
+}
+
+const members = Array.from(membersMap.values());
+
+if (!members.length) {
   return safeReply(interaction, {
-    embeds: [errorEmbed('Não consegui carregar os membros do servidor.')],
+    embeds: [errorEmbed('Nenhum gerente ou líder autorizado foi encontrado.')],
     ephemeral: true
   });
 }
 
-const members = interaction.guild.members.cache;
-
 const options = members
-  .filter(m => !m.user.bot)
-  .filter(m =>
-    m.roles.cache.some(role =>
-      authorizedRoleIds.includes(role.id)
-    )
-  )
-  .map(m => ({
-    label: m.displayName.slice(0, 90),
-    value: m.id,
-    description: 'Autorizado a receber farme'
+  .map(member => ({
+    label: member.displayName.slice(0, 90),
+    value: member.id,
+    description: 'Gerência/Liderança autorizada'
   }))
   .slice(0, 25);
 
