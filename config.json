@@ -1,0 +1,51 @@
+{
+  "bot": {
+    "name": "FURIA FARMES",
+    "footer": "FURIA FARMES • Sistema de Farmes",
+    "timezone": "America/Sao_Paulo"
+  },
+  "channels": {
+    "mainPanel": "1498445501417132102",
+    "goals": "1498445538264092783",
+    "approval": "1498445573261627394",
+    "logs": "1498445606753009827",
+    "ranking": "1498445647702130758",
+    "admin": "1498445704660783194"
+  },
+  "roles": {
+    "authorizedIdsEnv": [
+      "ROLE_1_ID",
+      "ROLE_2_ID",
+      "ROLE_3_ID",
+      "ROLE_4_ID",
+      "ROLE_5_ID"
+    ]
+  },
+  "colors": {
+    "primary": "#8B0000",
+    "success": "#18A558",
+    "error": "#D90429",
+    "warning": "#F4B400",
+    "dark": "#0B0B0F"
+  },
+  "limits": {
+    "maxQuantity": 999999,
+    "approvalPageSize": 10,
+    "rankingTopLimit": 10
+  },
+  "cooldowns": {
+    "globalMs": 1200,
+    "userMs": 5000,
+    "buttonMs": 2500
+  },
+  "sessions": {
+    "expirationMs": 300000
+  },
+  "ranking": {
+    "autoUpdateCron": "*/10 * * * *"
+  },
+  "goals": {
+    "weeklyDefault": 10000,
+    "monthlyDefault": 40000
+  }
+}

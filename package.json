@@ -1,0 +1,23 @@
+{
+  "name": "furia-farmes",
+  "version": "1.0.0",
+  "description": "Bot profissional de farmes para Discord - FURIA FARMES",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "sqlite3": "^5.1.7",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
