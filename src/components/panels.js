@@ -2,7 +2,7 @@ const { ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder, M
 const { embedBase } = require('../utils/embeds');
 const config = require('../../config.json');
 
-const TYPES = ['Pólvora', 'Projétil de Fuzil', 'Projétil de Pistola', 'Projétil de Submetralhadora', 'Dinheiro Sujo', 'Outros'];
+const TYPES = ['Pólvora', 'Projétil de Fuzil', 'Projétil de Pistola', 'Projétil de Submetralhadora', 'Cartuchos', 'Dinheiro Sujo', 'Outros'];
 
 function mainPanelEmbed() {
   return embedBase(config.colors.primary)
